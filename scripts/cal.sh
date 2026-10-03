@@ -16,26 +16,29 @@ get_next_meeting() {
 }
 
 parse_result() {
-	time=$(echo "$next_meeting" | grep -E "^[0-9]" | sed 's/ -.*//')
-	title=$(echo "$next_meeting" | grep -v "^[0-9]" | grep -v "^$" | grep -v "eventsToday" | sed 's/^[[:space:]]*//')
+	time=$(echo "$next_meeting" | grep -E "^[0-9]" | sed 's/ -.*//' | tr -d '\r' | xargs)
+	title=$(echo "$next_meeting" | grep -v "^[0-9]" | grep -v "^$" | grep -v "eventsToday" | sed 's/^[[:space:]]*//' | tr -d '\r' | xargs)
 }
 
 calculate_times() {
 	local time_24
-	local hour minute ampm
+	local hour minute ampm padded
 	hour=$(echo "$time" | cut -d: -f1)
 	minute=$(echo "$time" | cut -d: -f2 | awk '{print $1}')
 	ampm=$(echo "$time" | awk '{print $2}')
-	time_24=$(date -j -f "%I:%M %p" "$(printf '%02d' $hour):$minute $ampm" +"%H:%M" 2>/dev/null)
-	if [[ -z "$time_24" ]]; then
+	padded="$(printf '%02d' $hour):$minute $ampm"
+	echo "DEBUG padded=$padded" >&2
+	time_24=$(date -j -f "%I:%M %p" "$padded" +"%H:%M" 2>&1)
+	echo "DEBUG time_24=$time_24" >&2
+	if [[ "$time_24" == *":"* ]]; then
+		epoc_meeting=$(date -j -f "%H:%M" "$time_24" +%s)
+		epoc_now=$(date +%s)
+		epoc_diff=$((epoc_meeting - epoc_now))
+		minutes_till_meeting=$((epoc_diff/60))
+	else
 		minutes_till_meeting=999
 		epoc_diff=999
-		return
 	fi
-	epoc_meeting=$(date -j -f "%H:%M" "$time_24" +%s)
-	epoc_now=$(date +%s)
-	epoc_diff=$((epoc_meeting - epoc_now))
-	minutes_till_meeting=$((epoc_diff/60))
 }
 
 display_popup() {
