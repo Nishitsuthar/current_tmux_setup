@@ -71,6 +71,7 @@ main() {
 	fi
 	parse_result
 	calculate_times
+	echo "DEBUG time=$time title=$title minutes=$minutes_till_meeting" >&2
 	print_tmux_status
 }
 
