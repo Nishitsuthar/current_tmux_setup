@@ -27,6 +27,8 @@ calculate_times() {
 	minute=$(echo "$time" | cut -d: -f2 | awk '{print $1}')
 	ampm=$(echo "$time" | awk '{print $2}')
 	padded="$(printf '%02d' $hour):$minute $ampm"
+	padded="${padded%% }"
+	padded="$(echo "$padded" | tr -d '[:space:]' | sed 's/\([0-9][0-9]:[0-9][0-9]\)\(AM\|PM\)/\1 \2/')"
 	echo "DEBUG padded=$padded" >&2
 	time_24=$(date -j -f "%I:%M %p" "$padded" +"%H:%M" 2>&1)
 	echo "DEBUG time_24=$time_24" >&2
