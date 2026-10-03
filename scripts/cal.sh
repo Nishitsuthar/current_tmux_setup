@@ -22,7 +22,11 @@ parse_result() {
 
 calculate_times() {
 	local time_24
-	time_24=$(date -j -f "%I:%M %p" "$time" +"%H:%M" 2>/dev/null)
+	local hour minute ampm
+	hour=$(echo "$time" | cut -d: -f1)
+	minute=$(echo "$time" | cut -d: -f2 | awk '{print $1}')
+	ampm=$(echo "$time" | awk '{print $2}')
+	time_24=$(date -j -f "%I:%M %p" "$(printf '%02d' $hour):$minute $ampm" +"%H:%M" 2>/dev/null)
 	if [[ -z "$time_24" ]]; then
 		minutes_till_meeting=999
 		epoc_diff=999
