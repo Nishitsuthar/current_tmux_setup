@@ -18,7 +18,7 @@ get_attendees() {
 		--separateByDate \
 		--excludeEndDates \
 		--bullet "" \
-		--excludeCals "training,nishitsuthar123@gmail.com" \
+		--includeCals "Work,nishitsuthar123@gmail.com" \
 		eventsToday)
 }
 
@@ -41,7 +41,7 @@ get_next_meeting() {
 		--excludeAllDayEvents \
 		--separateByDate \
 		--bullet "" \
-		--excludeCals "training,nishitsuthar123@gmail.com" \
+		--includeCals "Work,nishitsuthar123@gmail.com" \
 		eventsToday)
 }
 
@@ -58,7 +58,7 @@ get_next_next_meeting() {
 		--excludeAllDayEvents \
 		--separateByDate \
 		--bullet "" \
-		--excludeCals "training,nishitsuthar123@gmail.com" \
+		--includeCals "Work,nishitsuthar123@gmail.com" \
 		eventsFrom:"${end_timestamp}" to:"${tonight}")
 }
 
@@ -94,7 +94,7 @@ display_popup() {
 			--includeOnlyEventsFromNowOn \
 			--limitItems 1 \
 			--excludeAllDayEvents \
-			--excludeCals "training" \
+			--includeCals "Work,nishitsuthar123@gmail.com" \
 			eventsToday
 }
 
