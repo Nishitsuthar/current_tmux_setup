@@ -16,7 +16,7 @@ get_next_meeting() {
 }
 
 parse_result() {
-	time=$(echo "$next_meeting" | grep -E "^[0-9]" | awk '{print $1, $2}')
+	time=$(echo "$next_meeting" | grep -E "^[0-9]" | sed 's/ -.*//')
 	title=$(echo "$next_meeting" | grep -v "^[0-9]" | grep -v "^$" | grep -v "eventsToday" | sed 's/^[[:space:]]*//')
 }
 
