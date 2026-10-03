@@ -26,8 +26,7 @@ calculate_times() {
 	hour=$(echo "$time" | cut -d: -f1)
 	minute=$(echo "$time" | cut -d: -f2 | awk '{print $1}')
 	ampm=$(echo "$time" | awk '{print $2}')
-	padded="$(printf '%02d' $hour):$minute $ampm"
-	padded="$(echo "$padded" | tr -d '[:space:]' | sed 's/\([0-9][0-9]:[0-9][0-9]\)\(AM\|PM\)/\1 \2/')"
+	padded="$(echo "$(printf '%02d' $hour):$minute $ampm" | tr -d '[:space:]' | sed 's/\([0-9][0-9]:[0-9][0-9]\)\(AM\|PM\)/\1 \2/')"
 	time_24=$(date -j -f "%I:%M %p" "$padded" +"%H:%M" 2>/dev/null)
 	if [[ "$time_24" == *":"* ]]; then
 		epoc_meeting=$(date -j -f "%H:%M" "$time_24" +%s)
