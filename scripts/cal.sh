@@ -73,7 +73,9 @@ parse_result() {
 }
 
 calculate_times(){
-	epoc_meeting=$(date -j -f "%T" "$time:00" +%s)
+	local time_24
+	time_24=$(date -j -f "%I:%M %p" "$time" +"%H:%M" 2>/dev/null)
+	epoc_meeting=$(date -j -f "%H:%M" "$time_24" +%s)
 	epoc_now=$(date +%s)
 	epoc_diff=$((epoc_meeting - epoc_now))
 	minutes_till_meeting=$((epoc_diff/60))
