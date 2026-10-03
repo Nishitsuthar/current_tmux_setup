@@ -18,7 +18,7 @@ get_attendees() {
 		--separateByDate \
 		--excludeEndDates \
 		--bullet "" \
-		--excludeCals "training,omerxx@gmail.com" \
+		--excludeCals "training,nishitsuthar123@gmail.com" \
 		eventsToday)
 }
 
@@ -41,7 +41,7 @@ get_next_meeting() {
 		--excludeAllDayEvents \
 		--separateByDate \
 		--bullet "" \
-		--excludeCals "training,omerxx@gmail.com" \
+		--excludeCals "training,nishitsuthar123@gmail.com" \
 		eventsToday)
 }
 
@@ -58,7 +58,7 @@ get_next_next_meeting() {
 		--excludeAllDayEvents \
 		--separateByDate \
 		--bullet "" \
-		--excludeCals "training,omerxx@gmail.com" \
+		--excludeCals "training,nishitsuthar123@gmail.com" \
 		eventsFrom:"${end_timestamp}" to:"${tonight}")
 }
 
@@ -107,7 +107,7 @@ print_tmux_status() {
 		echo "$NERD_FONT_FREE"
 	fi
 
-	if [[ $epoc_diff -gt $ALERT_POPUP_BEFORE_SECONDS && epoc_diff -lt $ALERT_POPUP_BEFORE_SECONDS+10 ]]; then
+	if [[ $epoc_diff -gt $ALERT_POPUP_BEFORE_SECONDS && $epoc_diff -lt $((ALERT_POPUP_BEFORE_SECONDS + 10)) ]]; then
 		display_popup
 	fi
 }
